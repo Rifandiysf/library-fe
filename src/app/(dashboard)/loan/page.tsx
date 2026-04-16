@@ -71,12 +71,18 @@ export default function PeminjamanPage() {
             />
 
             {/* Filter */}
-            <Select value={filterStatus} onValueChange={(v) => { setFilterStatus(v as any); setPage(1); }}>
+            <Select
+                value={filterStatus || "ALL"}
+                onValueChange={(v) => {
+                    setFilterStatus(v === "ALL" ? "" : v as StatusPeminjaman);
+                    setPage(1);
+                }}
+            >
                 <SelectTrigger className="w-48">
                     <SelectValue placeholder="Filter status" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="">Semua Status</SelectItem>
+                    <SelectItem value="ALL">Semua Status</SelectItem> 
                     <SelectItem value="DIPINJAM">Dipinjam</SelectItem>
                     <SelectItem value="DIKEMBALIKAN">Dikembalikan</SelectItem>
                     <SelectItem value="TERLAMBAT">Terlambat</SelectItem>

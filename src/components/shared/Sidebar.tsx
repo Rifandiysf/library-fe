@@ -1,7 +1,7 @@
 'use client'
 import { useAuthStore } from "@/store/auth.store";
 import { BookOpen, ClipboardList, LayoutDashboard, Library, LogOut, Users } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -20,9 +20,15 @@ const navStudent = [
 ];
 
 export function Sidebar() {
+    const router = useRouter();
     const pathname = usePathname();
     const { user, logout } = useAuthStore();
     const nav = user?.role === "ADMIN" ? navAdmin : navStudent;
+
+    const handleLogout = () => {
+        logout();
+        router.replace("/login");
+    };
 
     return (
         <aside className="flex h-screen w-64 flex-col border-r bg-card">
@@ -57,7 +63,7 @@ export function Sidebar() {
                 <Button
                     variant="ghost"
                     className="w-full justify-start gap-3 text-destructive hover:text-destructive"
-                    onClick={logout}
+                    onClick={handleLogout}
                 >
                     <LogOut className="h-4 w-4" />
                     Keluar
